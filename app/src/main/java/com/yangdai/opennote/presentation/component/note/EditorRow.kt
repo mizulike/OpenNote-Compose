@@ -52,6 +52,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TooltipBox
 import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.rememberTooltipState
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -66,6 +67,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.yangdai.opennote.R
+import androidx.window.core.layout.WindowWidthSizeClass
 import com.yangdai.opennote.presentation.util.Constants
 
 @Preview(showBackground = true)
@@ -115,34 +117,46 @@ fun IconButtonWithTooltip(
     contentDescription: String,
     shortCutDescription: String? = null,
     onClick: () -> Unit
-) = TooltipBox(
-    positionProvider = TooltipDefaults.rememberTooltipPositionProvider(),
-    tooltip = {
-        if (shortCutDescription != null) {
-            PlainTooltip(
-                content = { Text(shortCutDescription) }
-            )
-        }
-    },
-    state = rememberTooltipState(),
-    focusable = false,
-    enableUserInput = true
 ) {
-    IconButton(
-        onClick = onClick,
-        enabled = enabled,
-        colors = IconButtonDefaults.iconButtonColors().copy(contentColor = tint)
+    // Determine whether to show shortcut (tablets / larger width) or hide on phones (compact width)
+    val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
+    val showShortcut = windowSizeClass.windowWidthSizeClass != WindowWidthSizeClass.COMPACT
+    val tooltipText = if (shortCutDescription != null && showShortcut) {
+        // Localized pattern with parentheses style handled per locale
+        stringResource(
+            id = R.string.tooltip_with_shortcut,
+            contentDescription,
+            shortCutDescription
+        )
+    } else contentDescription
+
+    TooltipBox(
+        positionProvider = TooltipDefaults.rememberTooltipPositionProvider(),
+        tooltip = {
+            PlainTooltip(
+                content = { Text(tooltipText) }
+            )
+        },
+        state = rememberTooltipState(),
+        focusable = false,
+        enableUserInput = true
     ) {
-        if (imageVector != null) {
-            Icon(
-                imageVector = imageVector,
-                contentDescription = contentDescription
-            )
-        } else {
-            Icon(
-                painter = painterResource(id = painter!!),
-                contentDescription = contentDescription
-            )
+        IconButton(
+            onClick = onClick,
+            enabled = enabled,
+            colors = IconButtonDefaults.iconButtonColors().copy(contentColor = tint)
+        ) {
+            if (imageVector != null) {
+                Icon(
+                    imageVector = imageVector,
+                    contentDescription = contentDescription
+                )
+            } else {
+                Icon(
+                    painter = painterResource(id = painter!!),
+                    contentDescription = contentDescription
+                )
+            }
         }
     }
 }

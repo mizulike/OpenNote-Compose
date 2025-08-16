@@ -208,4 +208,6 @@
     <string name="display_style">Anzeigestil</string>
     <string name="line_numbers">Zeilennummern</string>
     <string name="sample_note">Beispielnotiz</string>
+    <!-- Tooltip pattern: e.g., Fett (Strg + B) -->
+    <string name="tooltip_with_shortcut">%1$s (%2$s)</string>
 </resources>

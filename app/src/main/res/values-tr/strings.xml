@@ -207,4 +207,6 @@
     <string name="display_style">Görüntüleme Stili</string>
     <string name="line_numbers">Satır numaraları</string>
     <string name="sample_note">Örnek Not</string>
+    <!-- Tooltip pattern: e.g., Kalın (Ctrl + B) -->
+    <string name="tooltip_with_shortcut">%1$s (%2$s)</string>
 </resources>

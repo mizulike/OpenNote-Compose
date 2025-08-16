@@ -210,4 +210,6 @@
     <string name="important_alert">Important Alert</string>
     <string name="tip_alert">Tip Alert</string>
     <string name="note_alert">Note Alert</string>
+    <!-- Tooltip pattern: e.g., Bold (Ctrl + B) -->
+    <string name="tooltip_with_shortcut">%1$s (%2$s)</string>
 </resources>

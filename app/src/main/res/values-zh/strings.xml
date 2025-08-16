@@ -208,4 +208,6 @@
     <string name="display_style">展示风格</string>
     <string name="line_numbers">行号</string>
     <string name="sample_note">示例笔记</string>
+    <!-- Tooltip pattern: e.g., 加粗（Ctrl + B） -->
+    <string name="tooltip_with_shortcut">%1$s（%2$s）</string>
 </resources>
